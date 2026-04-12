@@ -2,18 +2,22 @@ import os
 import dj_database_url
 from .settings import *
 
-# Security
 DEBUG = False
-SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# Hosts
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME')]
+RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+ALLOWED_HOSTS = [
+    RENDER_HOST,
+    "localhost",
+    "127.0.0.1"
+] if RENDER_HOST else ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://' + os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-]
+    f"https://{RENDER_HOST}"
+] if RENDER_HOST else []
 
-# Database (Render PostgreSQL)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 DATABASES = {
     "default": dj_database_url.config(
         default=os.environ.get("DATABASE_URL"),
@@ -21,12 +25,12 @@ DATABASES = {
     )
 }
 
-# Static files (WhiteNoise)
+# FIXED STORAGE
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage"
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    }
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
