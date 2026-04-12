@@ -3,10 +3,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
+from django.http import JsonResponse
+
+def test(request):
+    return JsonResponse({"status": "ok"})
+
 
 def home(request):
     return HttpResponse("🚀 Backend is running")
 urlpatterns = [
+    path("", test),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 ]
