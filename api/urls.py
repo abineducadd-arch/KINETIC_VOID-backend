@@ -7,10 +7,10 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'ads', AdvertisementViewSet)
-router.register(r'games', GameViewSet)
-router.register(r'library', UserGameLibraryViewSet, basename='library')
+router.register(r'users/', UserViewSet)
+router.register(r'ads/', AdvertisementViewSet)
+router.register(r'games/', GameViewSet)
+router.register(r'library/', UserGameLibraryViewSet, basename='library')
 
 urlpatterns = [
     path('', include(router.urls)),
