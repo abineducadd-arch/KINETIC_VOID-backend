@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-your-secret-key-here')
+
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key')
+
 DEBUG = True
+
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -17,8 +20,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'corsheaders',
+
     'api',
 ]
 
@@ -34,10 +39,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORGINS =[
+# CORS
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173'
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+# Core Django
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -58,6 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# Local DB (dev)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -65,6 +76,7 @@ DATABASES = {
     }
 }
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -72,23 +84,26 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# International
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static & Media
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_URL = 'media/'
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Default PK
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Custom user
 AUTH_USER_MODEL = 'api.User'
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-
+# DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -100,6 +115,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 12,
 }
 
+# JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
