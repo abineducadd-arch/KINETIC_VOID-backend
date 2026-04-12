@@ -71,7 +71,7 @@ class GameViewSet(viewsets.ModelViewSet):
     serializer_class = GameSerializer
     permission_classes = [IsAdminOrReadOnly]
     lookup_field = 'slug'   # <-- ADD THIS LINE
-    lookup_value_regex = '[-\w]+'   # optional, allows hyphens and word chars
+    lookup_value_regex = r'[-\w]+'   # optional, allows hyphens and word chars
     
     def get_queryset(self):
         queryset = Game.objects.all()
